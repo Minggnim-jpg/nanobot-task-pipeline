@@ -2,10 +2,14 @@
 
 > 🤖 基于 nanobot + Claude Code 的自动化任务执行引擎
 
-**版本**: v1.0  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/Minggnim-jpg/nanobot-task-pipeline/releases)
+[![Status](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/Minggnim-jpg/nanobot-task-pipeline)
+
+**版本**: v1.0.0  
 **创建时间**: 2026-03-05  
 **最后更新**: 2026-03-08  
-**状态**: 生产运行中
+**状态**: 🟢 生产就绪 / 已开源
 
 ---
 
@@ -353,13 +357,37 @@ sed -i 's|/path/to/workspace|/home/user/nanobot/workspace|g' scripts/pipeline-he
 - [nanobot 文档](https://github.com/nanobot-ai/nanobot)
 - [Claude Code 最佳实践](https://code.claude.com/docs/en/best-practices)
 - [Evolver 自我进化引擎](./docs/evolver.md)
+- [贡献指南](./CONTRIBUTING.md)
+- [安全策略](./SECURITY.md)
+
+---
+
+## 🤝 贡献
+
+我们欢迎各种形式的贡献！请查看 [贡献指南](./CONTRIBUTING.md) 了解如何参与。
 
 ---
 
 ## 📄 许可证
 
-本系统为内部工具，不对外开源。
+本项目采用 [MIT 许可证](./LICENSE)。
+
+简单来说：
+- ✅ 你可以自由使用、修改、分发
+- ✅ 商业项目也可以使用
+- ⚠️ 请保留原作者版权声明
+- ❌ 不提供任何担保
 
 ---
 
-*最后更新：2026-03-08 13:42 (CST)*
+## 📬 联系方式
+
+- **作者**: Minggnim-jpg
+- **Issues**: [提交 Issue](https://github.com/Minggnim-jpg/nanobot-task-pipeline/issues)
+- **Discussions**: [参与讨论](https://github.com/Minggnim-jpg/nanobot-task-pipeline/discussions)
+
+---
+
+*最后更新：2026-03-08 20:15 (CST)*
+
+**🌟 如果这个项目对你有帮助，请给个 Star！**
