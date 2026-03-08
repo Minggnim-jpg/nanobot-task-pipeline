@@ -1,0 +1,16 @@
+# 敏感信息
+*.jsonl
+*-config.json
+*.log
+
+# 运行时文件
+active-agents.md
+heartbeat-log.md
+
+# 任务数据（示例除外）
+tasks/task-*/
+!tasks/templates/
+!INDEX.md
+
+# 会话文件
+sessions/
