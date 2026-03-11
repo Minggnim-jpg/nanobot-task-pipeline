@@ -6,9 +6,9 @@
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/Minggnim-jpg/nanobot-task-pipeline/releases)
 [![Status](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/Minggnim-jpg/nanobot-task-pipeline)
 
-**版本**: v1.0.0  
+**版本**: v2.0.0  
 **创建时间**: 2026-03-05  
-**最后更新**: 2026-03-11  
+**最后更新**: 2026-03-12  
 **状态**: 🟢 生产就绪 / 已开源
 
 ---
@@ -445,6 +445,39 @@ sed -i 's|/path/to/workspace|/home/user/nanobot/workspace|g' scripts/pipeline-he
 
 ---
 
-*最后更新：2026-03-11 22:05 (CST)*
+*最后更新：2026-03-12 02:15 (CST)*
 
 **🌟 如果这个项目对你有帮助，请给个 Star！**
+
+---
+
+## 📰 更新日志
+
+### v2.0.0 (2026-03-12) - 完整流水线系统
+
+**重大更新**: 完成了任务流水线系统的完整实现和测试，支持从需求澄清到 PR 提交的全自动化流程。
+
+**新增功能**:
+- ✅ 5 阶段流水线完整实现 (brainstorming → technical-spec → coding → review → PR)
+- ✅ 心跳轮询脚本 (每 5 分钟自动检查并启动待执行任务)
+- ✅ task-pipeline skill (核心流水线处理器)
+- ✅ 活跃子代理管理 (同时活跃 ≤ 5 个)
+- ✅ 双运行模式 (搭建期/正式期)
+- ✅ 用户确认机制 (Discord 回复"OK"推进任务)
+- ✅ 异常处理 (非 Git 仓库自动跳过 PR)
+
+**新增文件**:
+- `skills/task-pipeline.md` - 核心流水线处理器
+- `scripts/pipeline-heartbeat.sh` - 心跳轮询脚本
+- `tasks-templates/` - 任务文件模板
+- `docs/TEST_REPORT.md` - 完整测试报告
+- `docs/RELEASE_v2.md` - v2.0 发布说明
+
+**测试验证**:
+- ✅ 5 个阶段全部通过
+- ✅ 子代理启动/完成机制正常
+- ✅ 状态跟踪和计数更新准确
+- ✅ 用户确认等待机制正常
+- ✅ 异常处理逻辑正确
+
+查看详情：[docs/RELEASE_v2.md](./docs/RELEASE_v2.md) | [docs/TEST_REPORT.md](./docs/TEST_REPORT.md)
