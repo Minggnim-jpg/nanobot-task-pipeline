@@ -21,7 +21,8 @@
 
 | 特性 | 描述 |
 |------|------|
-| **多阶段流水线** | todo → coding → review → PR 四阶段自动流转 |
+| **多阶段流水线** | brainstorming → technical-spec → coding → review → PR 五阶段自动流转 |
+| **需求澄清** | 基于 Superpowers 的 Brainstorming 模式，多轮问答明确需求 |
 | **心跳轮询** | 每 5 分钟检查任务状态，自动启动待执行任务 |
 | **子代理限制** | 同时活跃子代理 ≤ 5 个，防止资源耗尽 |
 | **超时保护** | 所有阶段统一 1 小时超时，自动抛弃僵尸任务 |
@@ -84,19 +85,27 @@ pipeline-archive/
 ├── docs/                         # 设计文档
 │   ├── pipeline-architecture.md  # 系统架构设计
 │   ├── pipeline-init.md          # 初始化模块
-│   ├── pipeline-todo-agent.md    # todo 子代理
+│   ├── pipeline-brainstorming.md # 需求澄清模块
+│   ├── pipeline-technical-spec.md# 技术方案模块
 │   ├── pipeline-coding-agent.md  # coding 子代理
 │   ├── pipeline-review-agent.md  # review 子代理
 │   └── pipeline-pr-module.md     # PR 提交模块
 ├── scripts/                      # 可执行脚本
-│   └── pipeline-heartbeat.sh     # 心跳轮询脚本
+│   ├── pipeline-heartbeat.sh     # 心跳轮询脚本
+│   ├── brainstorming-agent.sh    # 需求澄清子代理
+│   └── technical-spec-agent.sh   # 技术方案子代理
+├── skills/                       # Claude Code skills
+│   └── brainstorming/            # Brainstorming skill
+│       └── SKILL.md
 ├── config/                       # 配置文件
 │   ├── pipeline-mode.md          # 运行模式
 │   └── active-agents.md          # 活跃子代理计数
 ├── tasks-templates/              # 任务文件模板
 │   ├── history.md.template
 │   ├── original-task.md.template
-│   └── status.md.template
+│   ├── status.md.template
+│   ├── requirements.md.template  # 需求文档模板
+│   └── technical-spec.md.template# 技术方案模板
 └── examples/                     # 示例任务
     └── task-20260305152600-k9m2n7/  # 扑克牌比较工具（已完成）
 ```
@@ -105,12 +114,21 @@ pipeline-archive/
 
 ## 🔄 流水线阶段
 
-| 阶段 | 输入 | 输出 | 子代理 |
-|------|------|------|--------|
-| **1. todo** | 用户原始任务 | `requirements.md`, `technical-spec.md` | todo-agent |
-| **2. coding** | 技术方案 | `src/`, `tests/` | coding-agent |
-| **3. review** | 源代码 + 测试 | `review-report.md` | review-agent |
-| **4. PR** | 审查通过的代码 | GitHub Pull Request | pr-module |
+| 阶段 | 输入 | 输出 | 子代理 | 确认要求 |
+|------|------|------|--------|----------|
+| **0. brainstorming** | 用户原始任务 | `requirements.md` | brainstorming-agent | ✅ 需求确认 |
+| **1. technical-spec** | 需求文档 | `technical-spec.md` | technical-spec-agent | ⚡ 搭建期确认/正式期自动 |
+| **2. coding** | 技术方案 | `src/`, `tests/` | coding-agent | ⏸️ 审查 |
+| **3. review** | 源代码 + 测试 | `review-report.md` | review-agent | ⏸️ 审查报告 |
+| **4. PR** | 审查通过的代码 | GitHub Pull Request | pr-module | ✅ 提交前确认 |
+
+**阶段说明**:
+
+- **brainstorming**: 使用 Superpowers 的 Brainstorming 模式，通过多轮问答澄清需求，输出独立的需求文档
+- **technical-spec**: 基于已确认的需求文档设计技术方案，不添加需求之外的功能（YAGNI 原则）
+- **coding**: 遵循 TDD 原则实现功能，测试覆盖率 ≥ 80%
+- **review**: 代码审查，检查代码质量、测试覆盖、安全问题
+- **PR**: 创建 GitHub Pull Request，等待人工合并
 
 ---
 
@@ -118,14 +136,31 @@ pipeline-archive/
 
 ### 搭建期 (Development Mode)
 
-- 每个阶段完成后等待用户回复 "OK" 确认
+| 阶段 | 确认要求 | 通知 |
+|------|----------|------|
+| brainstorming | ✅ 用户确认需求文档 | 是 |
+| technical-spec | ✅ 用户确认技术方案 | 是 |
+| coding | ⏸️ 阶段完成后审查 | 是 |
+| review | ⏸️ 审查报告完成后 | 是 |
+| PR | ✅ 提交前确认 | 是 |
+
+- 每个关键阶段完成后等待用户回复 "OK" 确认
 - 每阶段发送详细通知
 - 适合系统调试和流程验证
 
 ### 正式期 (Production Mode)
 
-- 自动流转，无需阶段确认
-- 只在 PR 完成/失败时发送通知
+| 阶段 | 确认要求 | 通知 |
+|------|----------|------|
+| brainstorming | ✅ 用户确认需求文档 | 是 |
+| technical-spec | ⚡ 自动进入 coding | 否 |
+| coding | ⏸️ 阶段完成后审查 | 否 |
+| review | ⏸️ 审查报告完成后 | 否 |
+| PR | ✅ 提交前确认 | 是 |
+
+- 需求文档必须用户确认
+- 技术方案自动通过，进入 coding
+- 只在关键节点发送通知（需求确认、PR 完成/失败）
 - 适合日常生产使用
 
 **切换命令**:
@@ -410,6 +445,6 @@ sed -i 's|/path/to/workspace|/home/user/nanobot/workspace|g' scripts/pipeline-he
 
 ---
 
-*最后更新：2026-03-11 21:45 (CST)*
+*最后更新：2026-03-11 22:05 (CST)*
 
 **🌟 如果这个项目对你有帮助，请给个 Star！**
