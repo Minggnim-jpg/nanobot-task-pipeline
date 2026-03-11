@@ -8,7 +8,7 @@
 
 **版本**: v1.0.0  
 **创建时间**: 2026-03-05  
-**最后更新**: 2026-03-08  
+**最后更新**: 2026-03-11  
 **状态**: 🟢 生产就绪 / 已开源
 
 ---
@@ -181,7 +181,13 @@ pipeline-archive/
 
 ## 🔧 配置说明
 
-### nanobot Gateway 心跳
+### 心跳调度机制
+
+> ⚠️ **注意**: 心跳调度是**可选组件**。开源仓库提供完整逻辑，但实际部署时可根据需求选择是否启用。
+> 
+> 查看 [配置状态说明](./docs/CONFIG-STATUS.md) 了解本地实际部署状态。
+
+#### 方案 A: nanobot Gateway 心跳（可选）
 
 ```json
 {
@@ -196,6 +202,21 @@ pipeline-archive/
 
 - `enabled`: 是否启用内置心跳调度器
 - `intervalS`: 心跳间隔（秒），默认 1800 秒（30 分钟）
+
+#### 方案 B: cron 定时任务（可选）
+
+```bash
+# 每 5 分钟执行一次
+nanobot cron add --cron_expr "*/5 * * * *" --tz "Asia/Shanghai" \
+  --message "任务流水线心跳检查"
+```
+
+#### 方案 C: 手动触发
+
+直接执行脚本：
+```bash
+./scripts/pipeline-heartbeat.sh
+```
 
 ### 心跳脚本配置
 
@@ -357,6 +378,7 @@ sed -i 's|/path/to/workspace|/home/user/nanobot/workspace|g' scripts/pipeline-he
 - [nanobot 文档](https://github.com/nanobot-ai/nanobot)
 - [Claude Code 最佳实践](https://code.claude.com/docs/en/best-practices)
 - [Evolver 自我进化引擎](./docs/evolver.md)
+- [配置状态说明](./docs/CONFIG-STATUS.md) - 本地实际部署状态
 - [贡献指南](./CONTRIBUTING.md)
 - [安全策略](./SECURITY.md)
 
@@ -388,6 +410,6 @@ sed -i 's|/path/to/workspace|/home/user/nanobot/workspace|g' scripts/pipeline-he
 
 ---
 
-*最后更新：2026-03-08 20:15 (CST)*
+*最后更新：2026-03-11 21:45 (CST)*
 
 **🌟 如果这个项目对你有帮助，请给个 Star！**
