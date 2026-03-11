@@ -3,7 +3,7 @@
 > 🤖 基于 nanobot + Claude Code 的自动化任务执行引擎
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/Minggnim-jpg/nanobot-task-pipeline/releases)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/Minggnim-jpg/nanobot-task-pipeline/releases)
 [![Status](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/Minggnim-jpg/nanobot-task-pipeline)
 
 **版本**: v2.0.0  
@@ -445,7 +445,7 @@ sed -i 's|/path/to/workspace|/home/user/nanobot/workspace|g' scripts/pipeline-he
 
 ---
 
-*最后更新：2026-03-12 02:15 (CST)*
+*最后更新：2026-03-12 02:31 (CST)*
 
 **🌟 如果这个项目对你有帮助，请给个 Star！**
 
