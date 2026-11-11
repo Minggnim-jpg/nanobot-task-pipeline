@@ -62,15 +62,17 @@ nanobot cron add --cron_expr "*/5 * * * *" --tz "Asia/Shanghai" \
 
 ---
 
-## 🔒 脱敏配置
+## 🔒 配置说明
 
-### 本地实际配置（敏感信息）
+本仓库不保存任何真实的通道 ID、密钥或凭证。部署时请按下表把占位符替换为你自己的值，并只写进本地配置，不要提交。
 
-| 配置项 | 本地值 | 仓库占位符 |
-|--------|--------|------------|
-| WORKSPACE | `/root/.nanobot/workspace` | `/path/to/workspace` |
-| Discord Chat ID | `1478270269922480170` | `[DISCORD_CHAT_ID]` |
-| 最大子代理数 | `5` | `5` (相同) |
+| 配置项 | 仓库占位符 | 说明 |
+|--------|------------|------|
+| WORKSPACE | `/path/to/workspace` | 你的工作区目录 |
+| Discord Chat ID | `[DISCORD_CHAT_ID]` | 你自己的 Discord 频道 ID，走环境变量传入 |
+| 最大子代理数 | `5` | 如无特殊需要保持默认 |
+
+> Discord Chat ID 等通道标识请通过环境变量 `DISCORD_CHAT_ID` 注入，不要写入仓库文件。
 
 ### 通知状态
 
